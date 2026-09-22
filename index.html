@@ -38,16 +38,6 @@ body{font-family:Arial;margin:0 auto;max-width:420px;padding:15px;background:#f2
 
 <p style="text-align:center;font-size:11px;color:gray;margin-top:20px">Created by Imtes - 2026<br><a href="#" onclick="localStorage.clear();location.reload();return false;">Reset (testing ke liye)</a></p>
 
-<script>
-let spots = localStorage.getItem('mySpots') ? parseInt(localStorage.getItem('mySpots')) : 19;
-let joined = localStorage.getItem('myJoined') === 'yes';
-function show(){
-  document.getElementById('spotsText').innerText = 'Only '+spots+' spots left';
-  let b=document.getElementById('joinBtn');
-  if(joined){b.innerText='Already Registered ✓';b.disabled=true;}
-  else if(spots<=0){b.innerText='Registration Closed';b.disabled=true;}
-  else{b.innerText='Join Now - Register ('+spots+' left)';b.disabled=false;}
-}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -59,6 +49,31 @@ const firebaseConfig = {
   storageBucket: "competition-backend-10783.firebasestorage.app",
   messagingSenderId: "765940891583",
   appId: "1:765940891583:web:081e1a488a2eddd0406b0a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Button ko force clickable banate hain
+const btn = document.getElementById('joinBtn');
+btn.disabled = false;
+btn.innerText = "Join Now - Register";
+
+window.doRegister = async function(){
+  btn.innerText = "Saving...";
+  try{
+    await addDoc(collection(db, "registrations"), {
+      event: "Urban Dance Battle",
+      time: new Date().toString()
+    });
+    alert("✅ HO GAYA! Firebase me save ho gaya");
+    btn.innerText = "Registered!";
+  }catch(e){
+    alert("Error: " + e.message);
+    btn.innerText = "Try Again";
+  }
+}
+</script>
 };
 
 const app = initializeApp(firebaseConfig);
