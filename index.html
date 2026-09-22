@@ -1,34 +1,24 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html><head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Urban Dance Battle 2025</title>
-<style>
-body{font-family:Arial;margin:0;background:#f5f5ff;padding:15px;max-width:420px;margin:auto}
-.header{font-size:22px;font-weight:bold;text-align:center;margin:15px 0}
-.mainCard{background:#c5c9ff;padding:20px;border-radius:20px}
-.badge{background:#ffdbac;padding:5px 10px;border-radius:20px;font-size:12px}
-.title{font-size:26px;font-weight:900;margin:10px 0}
-.prizeBox{background:#fff;padding:12px;border-radius:12px;margin-top:15px;display:flex;gap:10px;align-items:center}
-.card{border:1px solid #ddd;background:#fff;padding:15px;border-radius:12px;margin-top:12px;display:flex;justify-content:space-between}
-.orangeBox{background:#ffcc99;padding:15px;border-radius:12px;margin-top:12px;border:1px solid orange}
-.btn{background:#000;color:#fff;padding:16px;border-radius:12px;text-align:center;font-weight:bold;margin-top:20px;width:100%;font-size:16px;border:none}
-.btn:disabled{background:grey}
-.small{display:flex;gap:10px;margin-top:12px}
-.small div{flex:1;border:1px solid #ddd;background:#fff;padding:12px;border-radius:12px}
-</style>
-</head>
-<body>
-<div class="header">Competition Details</div>
-<div class="mainCard">
-<span class="badge">● LIVE • OPEN</span>
-<div class="title">Urban Dance Battle 2025</div>
-<div>📍 Hip Hop • Breaking • Freestyle • Los Angeles, CA</div>
-<div class="prizeBox">🏆 <div><small>Prize Pool</small><br><b style="font-size:20px">$10,000</b></div></div>
+<title>Urban Dance Battle</title>
+<style>body{font-family:Arial;max-width:400px;margin:auto;padding:15px;background:#eef}
+.card{background:#c5c9ff;padding:20px;border-radius:15px}
+.box{background:#fff;padding:12px;border-radius:10px;margin-top:10px}
+.btn{background:#000;color:#fff;padding:15px;width:100%;border:none;border-radius:10px;font-size:16px;margin-top:15px}</style>
+</head><body>
+<div class="card">
+<h2>Urban Dance Battle 2025</h2>
+<p>📍 Los Angeles - Prize $10,000</p>
+<div class="box"><b id="spots">Only 19 spots left</b></div>
 </div>
-<div class="card"><div><b>Alex Rivera</b><br><small>Hip Hop Champion</small></div><div>⭐ 4.9</div></div>
-<div class="small"><div>📅<br><small>Start Date</small><br><b>Oct 26, 2024</b></div><div>📅<br><small>End Date</small><br><b>Nov 2, 2024</b></div></div>
-<div class="orangeBox"><b id="spotsText">Only 19 spots left</b><br><small>Registration closes Oct 24</small></div>
-<h3>Rewards</h3>
-<div class="card"><span>🏆 1st Place</span><b>$5,000 + Trophy</b></div>
-<div class="card"><span>
+<button id="btn" class="btn" onclick="reg()">Join Now - Register</button>
+<p style="text-align:center">Created by Imtes - 2026</p>
+<script>
+let s=localStorage.getItem('s')?+localStorage.getItem('s'):19;
+let r=localStorage.getItem('r')=='1';
+function ui(){document.getElementById('spots').innerText='Only '+s+' spots left';
+if(r||s<=0){document.getElementById('btn').innerText=r?'Already Registered ✓':'Closed';document.getElementById('btn').disabled=true}}
+function reg(){if(!r&&s>0){s--;r=true;localStorage.setItem('s',s);localStorage.setItem('r','1');alert('Registered! Left: '+s);ui()}}ui();
+</script>
+</body></html>
