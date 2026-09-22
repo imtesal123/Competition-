@@ -4,39 +4,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Urban Dance Battle</title>
 <style>
-body{font-family:Arial;margin:0 auto;max-width:420px;padding:15px;background:#f2f2f2}
-.card{background:#c5c9ff;padding:20px;border-radius:18px}
-.white{background:#fff;padding:12px;border-radius:12px;margin-top:10px}
-.orange{background:#ffd9a6;padding:12px;border-radius:12px;margin-top:12px;border:1px solid orange}
-.btn{background:#000;color:#fff;width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;margin-top:15px}
-.btn:disabled{background:gray}
-.small{display:flex;gap:10px;margin-top:10px}
-.small div{background:#fff;flex:1;padding:12px;border-radius:12px;border:1px solid #ddd}
+body{font-family:sans-serif; background:#f5f5f5; padding:20px; text-align:center}
+.card{background:white; padding:15px; border-radius:15px; margin:10px auto; max-width:400px; display:flex; justify-content:space-between; font-weight:bold; box-shadow:0 2px 10px #0001}
+button{background:#6c5ce7; color:white; border:none; padding:16px 30px; border-radius:30px; font-size:18px; margin-top:20px; cursor:pointer}
 </style>
 </head>
 <body>
-<h2 style="text-align:center">Competition Details</h2>
-<div class="card">
-<span style="background:#ffe4b5;padding:4px 10px;border-radius:20px;font-size:12px">● LIVE • OPEN</span>
-<h1 style="margin:10px 0">Urban Dance Battle 2025</h1>
-<p>📍 Hip Hop • Breaking • Freestyle • Los Angeles, CA</p>
-<div class="white">🏆 Prize Pool <b style="font-size:22px;display:block">$10,000</b></div>
-</div>
+<h1>💃 Urban Dance Battle</h1>
+<p id="spotsText">15 Spots Left</p>
 
-<div class="white" style="margin-top:12px;display:flex;justify-content:space-between"><b>Alex Rivera<br><small>Hip Hop Champion</small></b><span>⭐ 4.9</span></div>
+<div class="card"><span>🏆 1st Place</span><span>$5,000 + Trophy</span></div>
+<div class="card"><span>🥈 2nd Place</span><span>$3,000 + Medal</span></div>
+<div class="card"><span>🥉 3rd Place</span><span>$2,000 + Medal</span></div>
 
-<div class="small"><div>Start Date<br><b>Oct 26, 2024</b></div><div>End Date<br><b>Nov 2, 2024</b></div></div>
+<button id="joinBtn" onclick="doRegister()">Join Now - Register</button>
 
-<div class="orange"><b id="spotsText">Only 19 spots left</b><br><small>Registration closes Oct 24</small></div>
-
-<button id="joinBtn" class="btn" onclick="doRegister()">Join Now - Register</button>
-
-<h3>Rewards</h3>
-<div class="white">🏆 1st Place <b style="float:right">$5,000 + Trophy</b></div>
-<div class="white">🥈 2nd Place <b style="float:right">$3,000 + Medal</b></div>
-<div class="white">🥉 3rd Place <b style="float:right">$2,000 + Medal</b></div>
-
-<p style="text-align:center;font-size:11px;color:gray;margin-top:20px">Created by Imtes - 2026<br><a href="#" onclick="localStorage.clear();location.reload();return false;">Reset (testing ke liye)</a></p>
+<p style="margin-top:30px; color:gray; font-size:12px;">
+<a href="#" onclick="localStorage.clear(); location.reload();">Reset Test</a></p>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -54,62 +38,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Button ko force clickable banate hain
-const btn = document.getElementById('joinBtn');
-btn.disabled = false;
-btn.innerText = "Join Now - Register";
-
 window.doRegister = async function(){
+  const btn = document.getElementById('joinBtn');
   btn.innerText = "Saving...";
   try{
-    await addDoc(collection(db, "registrations"), {
-      event: "Urban Dance Battle",
-      time: new Date().toString()
+    await addDoc(collection(db, "registrations"), { 
+      event: "Urban Dance Battle", 
+      time: new Date().toLocaleString()
     });
-    alert("✅ HO GAYA! Firebase me save ho gaya");
-    btn.innerText = "Registered!";
-  }catch(e){
-    alert("Error: " + e.message);
+    alert('✅ HO GAYA! Firebase me save ho gaya!');
+    btn.innerText = 'Registered!';
+    btn.disabled = true;
+  }catch(e){ 
+    alert("Error: " + e.message); 
     btn.innerText = "Try Again";
   }
 }
-</script>
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-let spots = localStorage.getItem('mySpots');
-let joined = localStorage.getItem('myJoined');
-
-function show(){
-  document.getElementById('spotsText').innerText = spots ? spots : '15';
-  let b=document.getElementById('joinBtn');
-  if(joined){b.innerText='Already Registered'; b.disabled=true;}
-  else if(spots<=0){b.innerText='Registration Closed'; b.disabled=true;}
-  else{b.innerText='Join Now - Register';}
-}
-
-window.doRegister = async function(){
-  if(!joined && spots>0){
-    try{
-      await addDoc(collection(db, "registrations"), {
-        event: "Urban Dance Battle",
-        time: new Date().toLocaleString(),
-        user: "Dancer - " + Math.random().toString(36).substring(7)
-      });
-      
-      spots--; joined=true;
-      localStorage.setItem('mySpots',spots);
-      localStorage.setItem('myJoined','yes');
-      alert('Successfully Registered! \nSpots left: ' + spots + '\nData saved to Firebase!');
-      show();
-    }catch(e){
-      alert("Firebase Error: " + e.message);
-    }
-  }
-}
-show();
 </script>
 </body>
 </html>
