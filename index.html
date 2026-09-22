@@ -48,13 +48,50 @@ function show(){
   else if(spots<=0){b.innerText='Registration Closed';b.disabled=true;}
   else{b.innerText='Join Now - Register ('+spots+' left)';b.disabled=false;}
 }
-function doRegister(){
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC2tCVCvpt4VAfk9nd27GLAOK0hbah0LVo",
+  authDomain: "competition-backend-10783.firebaseapp.com",
+  projectId: "competition-backend-10783",
+  storageBucket: "competition-backend-10783.firebasestorage.app",
+  messagingSenderId: "765940891583",
+  appId: "1:765940891583:web:081e1a488a2eddd0406b0a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let spots = localStorage.getItem('mySpots');
+let joined = localStorage.getItem('myJoined');
+
+function show(){
+  document.getElementById('spotsText').innerText = spots ? spots : '15';
+  let b=document.getElementById('joinBtn');
+  if(joined){b.innerText='Already Registered'; b.disabled=true;}
+  else if(spots<=0){b.innerText='Registration Closed'; b.disabled=true;}
+  else{b.innerText='Join Now - Register';}
+}
+
+window.doRegister = async function(){
   if(!joined && spots>0){
-    spots--; joined=true;
-    localStorage.setItem('mySpots',spots);
-    localStorage.setItem('myJoined','yes');
-    alert('Successfully Registered! \nSpots left: '+spots);
-    show();
+    try{
+      await addDoc(collection(db, "registrations"), {
+        event: "Urban Dance Battle",
+        time: new Date().toLocaleString(),
+        user: "Dancer - " + Math.random().toString(36).substring(7)
+      });
+      
+      spots--; joined=true;
+      localStorage.setItem('mySpots',spots);
+      localStorage.setItem('myJoined','yes');
+      alert('Successfully Registered! \nSpots left: ' + spots + '\nData saved to Firebase!');
+      show();
+    }catch(e){
+      alert("Firebase Error: " + e.message);
+    }
   }
 }
 show();
