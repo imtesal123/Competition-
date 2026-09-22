@@ -1,30 +1,54 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Urban Dance Battle</title>
+<title>Urban Dance Battle - Championship 2026</title>
 <style>
-body{font-family:sans-serif; background:#f5f5f5; padding:20px; text-align:center}
-.card{background:white; padding:15px; border-radius:15px; margin:10px auto; max-width:400px; display:flex; justify-content:space-between; font-weight:bold; box-shadow:0 2px 10px #0001}
-button{background:#6c5ce7; color:white; border:none; padding:16px 30px; border-radius:30px; font-size:18px; margin-top:20px; cursor:pointer}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+body{font-family:'Poppins',sans-serif; background:#0f0f13; color:white; margin:0; padding:0; text-align:center}
+.hero{background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #fd79a8 100%); padding:50px 20px 40px; border-radius:0 0 40px 40px;}
+.hero h1{font-size:32px; font-weight:800; margin:10px 0}
+.hero p{background:rgba(0,0,0,0.2); display:inline-block; padding:8px 20px; border-radius:20px; font-weight:600}
+.container{padding:20px; max-width:500px; margin:auto}
+.card{background:#1e1e28; padding:18px 20px; border-radius:16px; margin:12px 0; display:flex; justify-content:space-between; font-weight:600; border:1px solid #2d2d3a}
+.card span:last-child{color:#a29bfe}
+.btn{width:100%; background:linear-gradient(90deg, #6c5ce7, #fd79a8); color:white; border:none; padding:18px; border-radius:35px; font-size:19px; font-weight:800; margin-top:25px; cursor:pointer; box-shadow:0 10px 20px #6c5ce766}
+.form-box{background:#1e1e28; padding:20px; border-radius:20px; margin-top:20px; text-align:left; display:none; border:1px solid #2d2d3a}
+.form-box input{width:92%; padding:14px; margin:8px 0; border-radius:12px; border:1px solid #333; background:#0f0f13; color:white; font-size:15px}
+.form-box label{font-size:13px; color:#aaa; margin-left:5px}
+#spotsText{font-size:18px; font-weight:700; color:#fdcb6e; margin:20px 0 5px}
 </style>
 </head>
 <body>
+<div class="hero">
 <h1>💃 Urban Dance Battle</h1>
-<p id="spotsText">15 Spots Left</p>
+<p id="spotsText">🔥 15 Spots Left - Join Now</p>
+</div>
 
+<div class="container">
 <div class="card"><span>🏆 1st Place</span><span>$5,000 + Trophy</span></div>
 <div class="card"><span>🥈 2nd Place</span><span>$3,000 + Medal</span></div>
 <div class="card"><span>🥉 3rd Place</span><span>$2,000 + Medal</span></div>
+<div class="card"><span>📍 Location</span><span>Downtown Arena</span></div>
+<div class="card"><span>📅 Date</span><span>Oct 15, 2026</span></div>
 
-<button id="joinBtn" onclick="doRegister()">Join Now - Register</button>
+<button class="btn" id="mainBtn" onclick="openForm()">Join Now - Register</button>
 
-<p style="margin-top:30px; color:gray; font-size:12px;">
-<a href="#" onclick="localStorage.clear(); location.reload();">Reset Test</a></p>
+<div class="form-box" id="formBox">
+<label>Full Name</label>
+<input id="name" placeholder="Your Name">
+<label>WhatsApp Number</label>
+<input id="phone" placeholder="03XX-XXXXXXX">
+<button class="btn" id="joinBtn" onclick="doRegister()">Confirm Registration ✅</button>
+</div>
+
+<p style="margin-top:30px; color:#555; font-size:11px;">Admin: <a href="https://console.firebase.google.com/project/competition-backend-10783/firestore" style="color:#6c5ce7">View Registrations</a> | <a href="#" onclick="localStorage.clear(); location.reload();" style="color:#555">Reset</a></p>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC2tCVCvpt4VAfk9nd27GLAOK0hbah0LVo",
@@ -38,17 +62,43 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+let spots = parseInt(localStorage.getItem('spots') || '15');
+
+async function updateSpotsUI(){
+  try{
+    const snap = await getDocs(collection(db, "registrations"));
+    const used = snap.size;
+    const left = Math.max(0, 15 - used);
+    document.getElementById('spotsText').innerText = `🔥 ${left} Spots Left - Hurry Up`;
+    spots = left;
+  }catch(e){
+    document.getElementById('spotsText').innerText = `🔥 ${spots} Spots Left`;
+  }
+}
+updateSpotsUI();
+
+window.openForm = function(){
+  document.getElementById('formBox').style.display='block';
+  document.getElementById('mainBtn').style.display='none';
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
 window.doRegister = async function(){
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  if(!name || !phone){ alert('Please enter Name & WhatsApp'); return; }
+  
   const btn = document.getElementById('joinBtn');
-  btn.innerText = "Saving...";
+  btn.innerText = "Saving to Firebase...";
   try{
     await addDoc(collection(db, "registrations"), { 
-      event: "Urban Dance Battle", 
-      time: new Date().toLocaleString()
+      name, phone, event: "Urban Dance Battle", time: new Date().toLocaleString()
     });
-    alert('✅ HO GAYA! Firebase me save ho gaya!');
-    btn.innerText = 'Registered!';
+    localStorage.setItem('spots', spots-1);
+    alert('✅ HO GAYA! Registration Firebase me save ho gayi!');
+    btn.innerText = 'Registered ✅';
     btn.disabled = true;
+    updateSpotsUI();
   }catch(e){ 
     alert("Error: " + e.message); 
     btn.innerText = "Try Again";
