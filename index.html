@@ -1,24 +1,63 @@
 <!DOCTYPE html>
-<html><head>
+<html>
+<head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Urban Dance Battle</title>
-<style>body{font-family:Arial;max-width:400px;margin:auto;padding:15px;background:#eef}
-.card{background:#c5c9ff;padding:20px;border-radius:15px}
-.box{background:#fff;padding:12px;border-radius:10px;margin-top:10px}
-.btn{background:#000;color:#fff;padding:15px;width:100%;border:none;border-radius:10px;font-size:16px;margin-top:15px}</style>
-</head><body>
+<style>
+body{font-family:Arial;margin:0 auto;max-width:420px;padding:15px;background:#f2f2f2}
+.card{background:#c5c9ff;padding:20px;border-radius:18px}
+.white{background:#fff;padding:12px;border-radius:12px;margin-top:10px}
+.orange{background:#ffd9a6;padding:12px;border-radius:12px;margin-top:12px;border:1px solid orange}
+.btn{background:#000;color:#fff;width:100%;padding:18px;border:none;border-radius:12px;font-size:18px;font-weight:bold;margin-top:15px}
+.btn:disabled{background:gray}
+.small{display:flex;gap:10px;margin-top:10px}
+.small div{background:#fff;flex:1;padding:12px;border-radius:12px;border:1px solid #ddd}
+</style>
+</head>
+<body>
+<h2 style="text-align:center">Competition Details</h2>
 <div class="card">
-<h2>Urban Dance Battle 2025</h2>
-<p>📍 Los Angeles - Prize $10,000</p>
-<div class="box"><b id="spots">Only 19 spots left</b></div>
+<span style="background:#ffe4b5;padding:4px 10px;border-radius:20px;font-size:12px">● LIVE • OPEN</span>
+<h1 style="margin:10px 0">Urban Dance Battle 2025</h1>
+<p>📍 Hip Hop • Breaking • Freestyle • Los Angeles, CA</p>
+<div class="white">🏆 Prize Pool <b style="font-size:22px;display:block">$10,000</b></div>
 </div>
-<button id="btn" class="btn" onclick="reg()">Join Now - Register</button>
-<p style="text-align:center">Created by Imtes - 2026</p>
+
+<div class="white" style="margin-top:12px;display:flex;justify-content:space-between"><b>Alex Rivera<br><small>Hip Hop Champion</small></b><span>⭐ 4.9</span></div>
+
+<div class="small"><div>Start Date<br><b>Oct 26, 2024</b></div><div>End Date<br><b>Nov 2, 2024</b></div></div>
+
+<div class="orange"><b id="spotsText">Only 19 spots left</b><br><small>Registration closes Oct 24</small></div>
+
+<button id="joinBtn" class="btn" onclick="doRegister()">Join Now - Register</button>
+
+<h3>Rewards</h3>
+<div class="white">🏆 1st Place <b style="float:right">$5,000 + Trophy</b></div>
+<div class="white">🥈 2nd Place <b style="float:right">$3,000 + Medal</b></div>
+<div class="white">🥉 3rd Place <b style="float:right">$2,000 + Medal</b></div>
+
+<p style="text-align:center;font-size:11px;color:gray;margin-top:20px">Created by Imtes - 2026<br><a href="#" onclick="localStorage.clear();location.reload();return false;">Reset (testing ke liye)</a></p>
+
 <script>
-let s=localStorage.getItem('s')?+localStorage.getItem('s'):19;
-let r=localStorage.getItem('r')=='1';
-function ui(){document.getElementById('spots').innerText='Only '+s+' spots left';
-if(r||s<=0){document.getElementById('btn').innerText=r?'Already Registered ✓':'Closed';document.getElementById('btn').disabled=true}}
-function reg(){if(!r&&s>0){s--;r=true;localStorage.setItem('s',s);localStorage.setItem('r','1');alert('Registered! Left: '+s);ui()}}ui();
+let spots = localStorage.getItem('mySpots') ? parseInt(localStorage.getItem('mySpots')) : 19;
+let joined = localStorage.getItem('myJoined') === 'yes';
+function show(){
+  document.getElementById('spotsText').innerText = 'Only '+spots+' spots left';
+  let b=document.getElementById('joinBtn');
+  if(joined){b.innerText='Already Registered ✓';b.disabled=true;}
+  else if(spots<=0){b.innerText='Registration Closed';b.disabled=true;}
+  else{b.innerText='Join Now - Register ('+spots+' left)';b.disabled=false;}
+}
+function doRegister(){
+  if(!joined && spots>0){
+    spots--; joined=true;
+    localStorage.setItem('mySpots',spots);
+    localStorage.setItem('myJoined','yes');
+    alert('Successfully Registered! \nSpots left: '+spots);
+    show();
+  }
+}
+show();
 </script>
-</body></html>
+</body>
+</html>
