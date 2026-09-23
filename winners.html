@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winners - Feedants | Imtesal</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#f6f3ef}
+.header{padding:16px;background:#fff;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;border-bottom:1px solid #eee}
+.main{max-width:480px;margin:auto;background:#fff;min-height:100vh;padding-bottom:80px}
+.title{padding:20px 16px 0;font-size:22px;font-weight:800}
+.sub{padding:0 16px;color:#888;font-size:13px;margin-bottom:16px}
+.winner-hero{margin:16px;background:linear-gradient(135deg,#0f5d50,#0a3d33);border-radius:20px;padding:20px;color:#fff;position:relative;overflow:hidden}
+.winner-hero::after{content:'👑';position:absolute;right:10px;top:10px;font-size:60px;opacity:0.2}
+.winner-list{padding:0 16px}
+.w-card{display:flex;gap:14px;background:#f9fafb;border:1px solid #eee;border-radius:16px;padding:14px;margin-bottom:12px;align-items:center;transition:0.2s}
+.w-card:hover{transform:scale(1.02);box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+.w-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;background:#fff;border:2px solid #e8f5e9}
+.w-info{flex:1}
+.w-info b{font-size:15px} .w-info p{font-size:12px;color:#666;margin-top:2px}
+.w-prize{font-weight:800;color:#0f5d50;background:#e8f5e9;padding:6px 12px;border-radius:20px;font-size:13px}
+.filter{display:flex;gap:8px;padding:12px 16px;overflow:auto}
+.filter span{padding:8px 16px;border-radius:20px;background:#f1f1f1;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer}
+.filter .active{background:#0f5d50;color:#fff}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0}
+.bottom-nav a{text-decoration:none;color:#888;font-size:11px;text-align:center;font-weight:600}
+.bottom-nav .active{color:#0f5d50}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="header"><a href="competition.html" style="text-decoration:none;color:#000">← Back</a><span style="font-weight:700">Previous Winners</span><span>🏆</span></div>
+  
+  <div class="title">Hall of Fame 🏅</div>
+  <p class="sub">Top dancers who won previous Feedants competitions - Real data from MongoDB</p>
+
+  <div class="winner-hero">
+    <div style="font-size:12px;opacity:0.8">GRAND WINNER - Sambal puri Competition</div>
+    <div style="font-size:20px;font-weight:800;margin-top:6px">Nikhil B. - ₹1,500 Prize</div>
+    <div style="margin-top:10px;display:flex;gap:10px;align-items:center">
+      <span style="background:rgba(255,255,255,0.2);padding:6px 12px;border-radius:20px;font-size:12px">⭐ 4.9 Rating</span>
+      <span style="background:rgba(255,255,255,0.2);padding:6px 12px;border-radius:20px;font-size:12px">👁️ 2.3k Views</span>
+    </div>
+  </div>
+
+  <div class="filter">
+    <span class="active">All Winners</span><span>Classical</span><span>Sambalpuri</span><span>Bharatnatyam</span><span>Kathak</span>
+  </div>
+
+  <div class="winner-list">
+    <div class="w-card"><div class="w-avatar">👨‍🎤</div><div class="w-info"><b>Nikhil B.</b><p>Sambal puri Competition • 15 Oct 2024</p><p>🔥 1.2k Likes • Judge: Manju Dubey</p></div><div class="w-prize">₹1,500</div></div>
+    <div class="w-card"><div class="w-avatar">💃</div><div class="w-info"><b>Priya S.</b><p>Bharatnatyam Solo • 10 Oct 2024</p><p>❤️ 980 Likes • Classical Category</p></div><div class="w-prize">₹1,000</div></div>
+    <div class="w-card"><div class="w-avatar">🕺</div><div class="w-info"><b>Aman K.</b><p>Kathak Fusion • 05 Oct 2024</p><p>👏 850 Likes • 2nd Runner-up</p></div><div class="w-prize">₹750</div></div>
+    <div class="w-card"><div class="w-avatar">👩‍🎤</div><div class="w-info"><b>Sneha R.</b><p>Odissi Classical • 01 Oct 2024</p><p>💖 720 Likes • Audience Choice</p></div><div class="w-prize">₹500</div></div>
+  </div>
+
+  <div style="margin:20px 16px;background:#e8f5e9;padding:16px;border-radius:14px">
+    <b>💡 How Winners Are Selected?</b><p style="font-size:12px;color:#555;margin-top:6px">Backend API: <code>GET /api/competitions/:id/winners</code> - Judge scores (40%) + Audience votes (30%) + Completion (30%). MongoDB aggregation pipeline.</p>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <a href="index.html">🏠<br>Home</a><a href="competition.html">🎭<br>Compete</a><a href="winners.html" class="active">🏆<br>Winners</a><a href="rewards.html">🎁<br>Rewards</a><a href="register.html">👤<br>Profile</a>
+</div>
+</body>
+</html>
