@@ -1,0 +1,7 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Register</title>
+<style>body{font-family:sans-serif;background:#f6f3ef;display:flex;justify-content:center} .box{max-width:400px;background:#fff;width:100%;margin-top:40px;padding:24px;border-radius:20px} input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #ddd} .btn{width:100%;background:#0f5d50;color:#fff;padding:14px;border:none;border-radius:12px;font-weight:800;margin-top:12px}</style>
+</head><body><div class="box"><h2 style="font-weight:800">Register @ ₹99</h2><p style="color:#666;font-size:13px">Only 19 spots left - Secure your spot!</p>
+<input placeholder="Full Name"><input placeholder="Email"><input placeholder="Phone"><input placeholder="Dance Style (e.g. Kathak)">
+<button class="btn" onclick="alert('Registered! In real app this calls POST /api/competitions/:id/register with concurrency safe logic')">Pay ₹99 & Register</button>
+<p style="font-size:11px;color:#888;margin-top:10px">By registering you agree to Feedants terms. Backend uses atomic MongoDB transaction to prevent double booking.</p>
+<a href="competition.html">← Back to Competition</a></div></body></html>
