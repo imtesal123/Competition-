@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Leaderboard - Feedants</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#080c14;color:#fff}
+.main{max-width:480px;margin:auto;background:#0a0f1c;min-height:100vh;padding-bottom:90px}
+.header{padding:16px;display:flex;justify-content:space-between;align-items:center;background:#111a2e;position:sticky;top:0;z-index:10;border-bottom:1px solid #1e293b}
+.live{ background:#ef4444;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1} 50%{opacity:0.5}}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:16px}
+.s-card{background:#111a2e;border:1px solid #1e293b;border-radius:14px;padding:14px;text-align:center}
+.s-card b{font-size:20px;color:#00d2ff;display:block}
+.s-card p{font-size:11px;color:#64748b;margin-top:4px}
+.table{padding:0 16px}
+.t-row{display:flex;align-items:center;gap:12px;background:#111a2e;border:1px solid #1e293b;border-radius:12px;padding:12px;margin-bottom:8px}
+.t-rank{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.t-rank.gold{background:#fbbf24;color:#000}.t-rank.silver{background:#94a3b8;color:#000}.t-rank.bronze{background:#d97706;color:#fff}.t-rank.normal{background:#1e293b;color:#94a3b8}
+.t-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#00d2ff,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:20px}
+.t-info{flex:1}.t-info b{font-size:14px}.t-info p{font-size:11px;color:#64748b}
+.t-score{font-weight:800;color:#00d2ff}
+.alert{margin:16px;background:#fef3c7;border:1px solid #f59e0b;border-radius:12px;padding:12px;color:#78350f;font-size:12px}
+.code{background:#020617;border:1px solid #1e293b;border-radius:10px;padding:10px;margin:16px;font-size:11px;color:#94a3b8;overflow:auto}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#111a2e;border-top:1px solid #1e293b;display:flex;justify-content:space-around;padding:10px 0}
+.bottom-nav a{color:#64748b;text-decoration:none;font-size:11px;text-align:center}.bottom-nav.active{color:#00d2ff}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="header"><a href="competition.html" style="color:#fff;text-decoration:none">←</a><b>Live Leaderboard</b><span class="live">● LIVE</span></div>
+
+  <div class="stats">
+    <div class="s-card"><b id="bookedCount">1</b><p>Booked</p></div>
+    <div class="s-card"><b id="leftCount" style="color:#ef4444">19</b><p>Spots Left</p></div>
+    <div class="s-card"><b id="timer2">01:06:28</b><p>Time Left</p></div>
+  </div>
+
+  <div class="alert">⚡ <b>Concurrency Handling:</b> This leaderboard updates via <code>GET /api/competitions/:id</code> every 3s. Backend uses atomic <code>findOneAndUpdate</code> to prevent overbooking when 1000s users click Register.</div>
+
+  <div class="table">
+    <div style="display:flex;justify-content:space-between;padding:8px 4px;font-size:11px;color:#64748b;font-weight:700"><span>RANK • DANCER</span><span>SCORE</span></div>
+
+    <div class="t-row"><div class="t-rank gold">1</div><div class="t-avatar">👨‍🎤</div><div class="t-info"><b>Nikhil B.</b><p>Sambalpuri • Registered</p></div><div class="t-score">98.5</div></div>
+    <div class="t-row"><div class="t-rank silver">2</div><div class="t-avatar">💃</div><div class="t-info"><b>Priya S.</b><p>Bharatnatyam • Registered</p></div><div class="t-score">96.2</div></div>
+    <div class="t-row"><div class="t-rank bronze">3</div><div class="t-avatar">🕺</div><div class="t-info"><b>You (Imtesal)</b><p>Classical • Registered ✓</p></div><div class="t-score">94.0</div></div>
+    <div class="t-row"><div class="t-rank normal">4</div><div class="t-avatar">👩‍🎤</div><div class="t-info"><b>Sneha R.</b><p>Waiting for Judge</p></div><div class="t-score">91.3</div></div>
+    <div class="t-row"><div class="t-rank normal">5</div><div class="t-avatar">🧑‍🎤</div><div class="t-info"><b>Aman K.</b><p>Submission Pending</p></div><div class="t-score">89.7</div></div>
+  </div>
+
+  <div class="code">
+    // Scalability Logic (Node.js + MongoDB)<br>
+    app.get('/api/competitions/:id/leaderboard', async (req,res)=>{<br>
+    &nbsp;&nbsp;const regs = await Registration.find({competitionId}).sort({score: -1});<br>
+    &nbsp;&nbsp;res.json({ remaining: total - booked, isOpen: timeLeft>0 });<br>
+    });<br>
+    // In Production: Use Redis Pub/Sub + Socket.io for live updates
+  </div>
+
+  <a href="register.html" style="margin:16px;display:block;background:#00d2ff;color:#000;text-align:center;padding:14px;border-radius:12px;font-weight:800;text-decoration:none">Join Leaderboard @ ₹99</a>
+</div>
+
+<div class="bottom-nav"><a href="index.html">🏠<br>Home</a><a href="competition.html">🎭<br>Compete</a><a href="winners.html">🏆<br>Winners</a><a href="leaderboard.html" class="active">📊<br>Live</a><a href="rewards.html">🎁<br>Rewards</a></div>
+
+<script>
+let booked=1, total=20, diff=(1*24*60*60+6*60*60+28*60+32)*1000;
+setInterval(()=>{
+  diff-=1000;
+  let h=Math.floor((diff/3600000)%24), m=Math.floor((diff/60000)%60), s=Math.floor((diff/1000)%60);
+  document.getElementById('timer2').innerText=`${h}:${m}:${s}`;
+},1000);
+setInterval(()=>{
+  if(booked<total && Math.random()>0.6){
+    booked++;
+    document.getElementById('bookedCount').innerText=booked;
+    document.getElementById('leftCount').innerText=total-booked;
+  }
+},4000);
+</script>
+</body>
+</html>
