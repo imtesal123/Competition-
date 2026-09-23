@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refer & Earn - Feedants</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#f6f3ef}.main{max-width:480px;margin:auto;background:#fff;min-height:100vh;padding-bottom:30px}
+.header{padding:16px;display:flex;justify-content:space-between;border-bottom:1px solid #eee;background:#fff;position:sticky;top:0}
+.hero{margin:16px;background:linear-gradient(135deg,#0f5d50,#065f46);border-radius:20px;padding:24px;color:#fff;text-align:center}
+.code-box{background:rgba(255,255,255,0.15);border:1px dashed rgba(255,255,255,0.4);border-radius:12px;padding:14px;margin-top:16px;display:flex;justify-content:space-between;align-items:center}
+.steps{padding:16px}.step{display:flex;gap:12px;margin-bottom:16px}
+.num{width:32px;height:32px;background:#e8f5e9;color:#0f5d50;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.earn{margin:16px;background:#f9fafb;border-radius:14px;padding:14px;border:1px solid #eee}
+.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee;font-size:13px}
+.btn{margin:16px;background:#0f5d50;color:#fff;padding:14px;border-radius:12px;text-align:center;font-weight:800;display:block;text-decoration:none}
+.share{display:flex;gap:10px;padding:0 16px}
+.share a{flex:1;padding:12px;border-radius:10px;text-align:center;text-decoration:none;font-weight:700;font-size:13px}
+.wa{background:#dcfce7;color:#166534}.tg{background:#e0f2fe;color:#0c4a6e}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="header"><a href="competition.html" style="text-decoration:none;color:#000">←</a><b>Refer & Earn</b><span>💰</span></div>
+
+  <div class="hero">
+    <div style="font-size:12px;opacity:0.8;letter-spacing:1px">INVITE FRIENDS, EARN MONEY</div>
+    <h1 style="font-size:28px;font-weight:800;margin-top:8px">Earn ₹10 Per Friend!</h1>
+    <p style="font-size:12px;opacity:0.9;margin-top:8px">When your friend registers for ₹99, you get ₹10 instantly</p>
+    <div class="code-box"><span>Your Code: <b>IMTESAL10</b></span><button onclick="navigator.clipboard.writeText('IMTESAL10'); alert('Copied!')" style="background:#fff;color:#0f5d50;border:none;padding:6px 14px;border-radius:20px;font-weight:800;font-size:12px">Copy</button></div>
+    <p style="font-size:11px;margin-top:10px;opacity:0.7">Backend: Registration model has referralCode field, validated atomically</p>
+  </div>
+
+  <div class="steps">
+    <h3 style="font-weight:800;margin-bottom:12px">How it works?</h3>
+    <div class="step"><div class="num">1</div><div><b>Share your code</b><p style="font-size:12px;color:#666">Share IMTESAL10 with friends on WhatsApp</p></div></div>
+    <div class="step"><div class="num">2</div><div><b>Friend registers @ ₹99</b><p style="font-size:12px;color:#666">They use your code during POST /api/competitions/:id/register</p></div></div>
+    <div class="step"><div class="num">3</div><div><b>You earn ₹10</b><p style="font-size:12px;color:#666">Amount added to wallet via MongoDB transaction</p></div></div>
+  </div>
+
+  <div class="share"><a href="#" class="wa" onclick="alert('Sharing on WhatsApp: Join Feedants Classical Dance - Use code IMTESAL10 - https://imtesal123.github.io/Competition-/')">WhatsApp</a><a href="#" class="tg" onclick="alert('Sharing on Telegram...')">Telegram</a></div>
+
+  <div class="earn">
+    <b>💸 Your Earnings</b>
+    <div class="row"><span>Total Referrals</span><b>3 friends</b></div>
+    <div class="row"><span>Total Earned</span><b style="color:#0f5d50">₹30</b></div>
+    <div class="row"><span>Pending</span><b>₹10 (1 friend not registered yet)</b></div>
+    <div class="row" style="border:none"><span>Wallet Balance</span><b style="color:#0f5d50;font-size:16px">₹30</b></div>
+  </div>
+
+  <div style="margin:16px;background:#fef3c7;border-radius:12px;padding:12px;font-size:12px;color:#78350f">
+    <b>🔒 Edge Case Handled:</b> Self-referral blocked via <code>userId != referredBy</code> check in backend. Duplicate referral prevented by unique index.
+  </div>
+
+  <a href="competition.html" class="btn">Back to Competition - Only 19 Spots Left!</a>
+</div>
+</body>
+</html>
