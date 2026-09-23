@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competition Details - Feedants</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#f6f3ef;padding-bottom:100px}
+.header{padding:16px;background:#fff;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.pill{background:#e8f5e9;color:#2e7d32;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700}
+.main{max-width:480px;margin:auto;background:#fff;min-height:100vh}
+.cover{height:210px;background:url('https://images.unsplash.com/photo-1518834107812-67b0b288f498?w=800') center/cover;position:relative}
+.cover-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.7), transparent)}
+.cover-text{position:absolute;bottom:16px;left:16px;color:#fff}
+.price-tag{background:#fff;color:#000;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.price{font-size:28px;font-weight:800} .fee{color:#666;font-size:13px}
+.spots{padding:10px 16px;background:#fff7f7;border-top:1px solid #ffeaea;border-bottom:1px solid #ffeaea;display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+.spots .red{color:#d32f2f} .spots .green{background:#e8f5e9;color:#2e7d32;padding:3px 8px;border-radius:10px;font-size:11px}
+.judge-card{margin:12px;background:#f9fafb;border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;border:1px solid #eee}
+.judge-img{width:48px;height:48px;border-radius:50%;background:url('https://i.pravatar.cc/150?img=5') center/cover}
+.timer-box{margin:12px;background:#fef9e7;border:1px solid #fde68a;border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center}
+.timer{font-weight:800;color:#92400e;font-size:15px}
+.section{padding:16px} .section h3{font-size:16px;font-weight:800;margin-bottom:10px}
+.date-box{display:flex;gap:10px}
+.date-card{flex:1;background:#f9fafb;border:1px solid #eee;border-radius:12px;padding:12px;text-align:center}
+.reward-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.reward-row b{color:#2e7d32}
+.btn-fixed{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;padding:12px 16px;border-top:1px solid #eee;display:flex;gap:10px}
+.btn{flex:1;background:#0f5d50;color:#fff;padding:14px;border-radius:12px;text-align:center;font-weight:800;text-decoration:none}
+.btn-outline{flex:1;background:#fff;border:1px solid #0f5d50;color:#0f5d50;padding:14px;border-radius:12px;text-align:center;font-weight:700;text-decoration:none}
+.winner-card{display:flex;gap:12px;background:#f9fafb;border-radius:12px;padding:12px;margin-top:10px;border:1px solid #eee}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="header"><span>← Feedants</span><span class="pill">● Live Competition</span></div>
+  
+  <div class="cover"><div class="cover-overlay"></div><div class="cover-text"><h2 style="font-size:22px;font-weight:800">Feedants Classical Dance<br>Competition</h2></div></div>
+  
+  <div class="price-tag"><div><div class="price">₹1,500</div><div class="fee">Prize Pool • Entry Fee ₹99</div></div><div style="font-size:24px">🏆</div></div>
+  
+  <div class="spots"><span class="red">Only <span id="spotsLeft">19</span> spots left</span><span><span id="booked">1</span>/20 Booked <span class="green">Registered ✓</span></span></div>
+
+  <div class="judge-card">
+    <div class="judge-img"></div>
+    <div><div style="font-weight:700">Manju Dubey</div><div style="font-size:12px;color:#666">Classical Dancer • 2.5 Years Exp</div><div style="font-size:12px">⭐ 4.7 Rating</div></div>
+    <div style="margin-left:auto;color:#0f5d50;font-weight:700;font-size:12px">View Profile ></div>
+  </div>
+
+  <div class="timer-box"><span style="font-size:13px">⏰ Registration closes in</span><span class="timer" id="timer">01d : 06h : 28m : 32s</span></div>
+
+  <div class="section">
+    <h3>📅 Important Dates</h3>
+    <div class="date-box">
+      <div class="date-card"><div style="font-size:11px;color:#888">REGISTRATION</div><b>10:30 AM, Sun 15 Oct</b></div>
+      <div class="date-card"><div style="font-size:11px;color:#888">RESULT</div><b>10:30 AM, Sun 20 Oct</b></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>🏅 Previous Competition Winners</h3>
+    <div class="winner-card"><div style="font-size:30px">👨‍🎤</div><div><b>Nikhil B.</b><br><span style="font-size:12px;color:#666">₹1500 • Sambal puri Competition</span></div><b style="margin-left:auto;color:#2e7d32">₹1,500</b></div>
+    <div class="winner-card"><div style="font-size:30px">💃</div><div><b>Priya S.</b><br><span style="font-size:12px;color:#666">₹1000 • Bharatnatyam</span></div><b style="margin-left:auto;color:#2e7d32">₹1,000</b></div>
+  </div>
+
+  <div class="section">
+    <h3>📖 About Competition</h3>
+    <p style="font-size:13px;color:#555;line-height:1.6">The Feedants Classical Dance Competition is a unique stage for passionate dancers. Show your classical moves and win from a ₹1500 prize pool. Built with scalable backend handling 1000s concurrent users.</p>
+  </div>
+
+  <div class="section">
+    <h3>🎁 Rewards</h3>
+    <div class="reward-row"><span>🥇 1st Winner</span><b>₹750 + Trophy + Certificate</b></div>
+    <div class="reward-row"><span>🥈 2nd Winner</span><b>₹250</b></div>
+    <div class="reward-row"><span>🥉 3rd Winner</span><b>₹150</b></div>
+    <div class="reward-row"><span>🏅 4th Winner</span><b>₹100</b></div>
+    <div class="reward-row"><span>🏅 5th Winner</span><b>₹50</b></div>
+  </div>
+
+  <div class="section" style="background:#e8f5e9;margin:12px;border-radius:14px">
+    <h3>💰 Refer & Earn</h3>
+    <p style="font-size:12px;color:#555">Invite friends and get ₹10 per successful registration!</p>
+  </div>
+
+  <div class="btn-fixed">
+    <a href="register.html" class="btn-outline">Register Now</a>
+    <a href="upload.html" class="btn">Upload Submission</a>
+  </div>
+</div>
+
+<script>
+let booked=1, total=20;
+let diff = (1*24*60*60 + 6*60*60 + 28*60 + 32)*1000;
+setInterval(()=>{
+  diff-=1000;
+  if(diff<=0){ document.getElementById('timer').innerText='Closed'; return; }
+  let d=Math.floor(diff/(1000*60*60*24)), h=Math.floor((diff/(1000*60*60))%24), m=Math.floor((diff/(1000*60))%60), s=Math.floor((diff/1000)%60);
+  document.getElementById('timer').innerText = `${d}d : ${h}h : ${m}m : ${s}s`;
+},1000);
+
+// Simulate real-time spots update (in real app this comes from backend API /api/competitions/:id)
+setInterval(()=>{
+  if(booked < total && Math.random()>0.7){
+    booked++;
+    document.getElementById('booked').innerText = booked;
+    document.getElementById('spotsLeft').innerText = total-booked;
+  }
+},5000);
+</script>
+</div>
+</body>
+</html>
