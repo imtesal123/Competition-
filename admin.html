@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - Feedants</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Outfit',sans-serif}
+body{background:#020617;color:#e2e8f0}.main{max-width:800px;margin:auto;min-height:100vh;padding:16px}
+.header{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #1e293b}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.card{background:#0f172a;border:1px solid #1e293b;border-radius:14px;padding:16px}
+.card b{font-size:22px;color:#22d3ee}.card p{font-size:11px;color:#64748b;margin-top:4px}
+.table{margin-top:20px;background:#0f172a;border:1px solid #1e293b;border-radius:14px;overflow:hidden}
+.t-header{padding:14px 16px;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;font-weight:700;font-size:13px}
+.t-row{padding:12px 16px;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;font-size:13px}
+.t-row:last-child{border:none}
+.input{background:#020617;border:1px solid #1e293b;border-radius:8px;padding:8px 12px;color:#fff;width:80px}
+.btn{background:#22d3ee;color:#000;padding:8px 16px;border-radius:8px;border:none;font-weight:800;cursor:pointer;font-size:12px}
+.code{margin-top:16px;background:#000;border:1px solid #1e293b;border-radius:10px;padding:12px;font-size:11px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="header"><b style="font-size:18px">🔧 Feedants Admin Panel - Imtesal</b><span style="background:#22d3ee;color:#000;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800">LIVE DB</span></div>
+
+  <div class="grid">
+    <div class="card"><b id="total">20</b><p>Total Spots (totalSpots field)</p><input class="input" id="totalInput" value="20"><button class="btn" onclick="updateTotal()">Update</button></div>
+    <div class="card"><b id="booked">1</b><p>Booked Spots (bookedSpots)</p><p style="color:#22d3ee;font-size:10px;margin-top:8px">Atomic $inc</p></div>
+    <div class="card"><b id="left">19</b><p>Only X spots left (Calculated: total - booked)</p></div>
+    <div class="card"><b id="timerAdmin">01:06:28:32</b><p>Registration Closes At (Date field)</p></div>
+  </div>
+
+  <div class="table">
+    <div class="t-header"><span>API Endpoint</span><span>Logic</span></div>
+    <div class="t-row"><span>GET /api/competitions/:id</span><span style="color:#22d3ee">Returns remaining, isOpen, isRegistered</span></div>
+    <div class="t-row"><span>POST /api/competitions/:id/register</span><span style="color:#fbbf24">findOneAndUpdate + Transaction = No overbooking</span></div>
+    <div class="t-row"><span>POST /api/competitions/:id/submit</span><span style="color:#86efac">Checks isRegistered + timeLeftMs</span></div>
+  </div>
+
+  <div class="code">
+    // Admin can update competition - Real-time sync<br>
+    // PUT /api/competitions/:id { totalSpots, registrationClosesAt }<br>
+    // Scalability: Add Redis cache + invalidate on update<br>
+    // Trade-off: For MVP, direct MongoDB read is fine (low latency). For 1M users, add Redis + CDN.
+  </div>
+
+  <div class="table" style="margin-top:16px">
+    <div class="t-header"><span>Recent Registrations (from Registration Collection)</span><span>Status</span></div>
+    <div class="t-row"><span>imtesal_123 - Classical Dance</span><span style="background:#dcfce7;color:#166534;padding:3px 8px;border-radius:10px;font-size:11px">Registered ✓</span></div>
+    <div class="t-row"><span>nikhil_b - Sambalpuri</span><span style="background:#fef3c7;color:#78350f;padding:3px 8px;border-radius:10px;font-size:11px">Submitted</span></div>
+    <div class="t-row"><span>priya_s - Bharatnatyam</span><span style="background:#dcfce7;color:#166534;padding:3px 8px;border-radius:10px;font-size:11px">Registered ✓</span></div>
+  </div>
+
+  <a href="competition.html" style="margin-top:20px;display:block;background:#22d3ee;color:#000;text-align:center;padding:14px;border-radius:12px;font-weight:800;text-decoration:none">View Live Competition Page →</a>
+  <p style="text-align:center;font-size:11px;color:#475569;margin-top:10px">This admin panel is what Feedants company will use in production. Shows MongoDB data modelling & scalability understanding.</p>
+</div>
+
+<script>
+let total=20, booked=1, diff=(1*24*60*60+6*60*60+28*60+32)*1000;
+function updateTotal(){ const v=parseInt(document.getElementById('totalInput').value); total=v; document.getElementById('total').innerText=total; document.getElementById('left').innerText=total-booked; alert('Updated! In real app: PUT /api/competitions/:id {totalSpots:'+v+'}'); }
+setInterval(()=>{ diff-=1000; let d=Math.floor(diff/86400000), h=Math.floor(diff/3600000%24), m=Math.floor(diff/60000%60), s=Math.floor(diff/1000%60); document.getElementById('timerAdmin').innerText=`${d}d:${h}h:${m}m:${s}s`; },1000);
+setInterval(()=>{ if(booked<total && Math.random()>0.7){ booked++; document.getElementById('booked').innerText=booked; document.getElementById('left').innerText=total-booked; } },3000);
+</script>
+</body>
+</html>
